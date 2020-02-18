@@ -1,0 +1,11 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: GitVersion@5
+  inputs:
+    runtime: 'core'
+    configFilePath: './GitVersion.yml'

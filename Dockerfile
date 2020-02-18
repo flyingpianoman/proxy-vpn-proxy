@@ -29,6 +29,8 @@ ADD scripts /etc/scripts/
 
 ENV OPENVPN_CONFIG=/config/config.ovpn \
     OPENVPN_OPTS= \
+    VPN_CONNECTION_PROXY_ADDRESS= \
+    VPN_CONNECTION_PROXY_PORT= \
     ENABLE_UFW=true \
     UFW_ALLOW_GW_NET=false \
     UFW_EXTRA_PORTS= \

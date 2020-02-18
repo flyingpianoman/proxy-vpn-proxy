@@ -16,8 +16,10 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment:
-      - OPENVPN_CONFIG=/config/AU_Perth.ovpn
+      - OPENVPN_CONFIG=
       - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+      - VPN_CONNECTION_PROXY_ADDRESS=
+      - VPN_CONNECTION_PROXY_PORT=
     volumes:
       - ./config:/config
     ports:

@@ -90,4 +90,10 @@ if [[ -n "${LOCAL_NETWORK-}" ]]; then
   fi
 fi
 
-exec openvpn ${VPN_CONTROL_OPTS} ${OPENVPN_OPTS} --config "${OPENVPN_CONFIG}"
+
+if [[ -n "${VPN_CONNECTION_PROXY_ADDRESS-}" ]]; then
+  echo "Using proxy for the VPN connection"
+  VPN_CONNECTION_PROXY_OPTS="--proto tcp-client --http-proxy ${VPN_CONNECTION_PROXY_ADDRESS} ${VPN_CONNECTION_PROXY_PORT}"
+fi
+
+exec openvpn --config "${OPENVPN_CONFIG}" ${VPN_CONTROL_OPTS} ${VPN_CONNECTION_PROXY_OPTS} ${OPENVPN_OPTS} 
