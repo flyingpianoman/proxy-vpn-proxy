@@ -46,11 +46,14 @@ set_port 8888 ${PROXY_CONF}
 # Allow all clients
 sed -i -e"s/^Allow /#Allow /" ${PROXY_CONF}
 
+# Allow all ports for connections (we need this to tunnel a VPN trough)
+sed -i -e"s/^ConnectPort /#ConnectPort /" ${PROXY_CONF}
+
 # Disable Via Header for privacy (leaks that you're using a proxy)
 sed -i -e "s/#DisableViaHeader/DisableViaHeader/" ${PROXY_CONF}
 
 # Lower log level for privacy (writes dns names by default)
-sed -i -e "s/LogLevel Info/LogLevel Critical/" ${PROXY_CONF}
+#sed -i -e "s/LogLevel Info/LogLevel Critical/" ${PROXY_CONF}
 
 /etc/init.d/tinyproxy start
 echo "Tinyproxy startup script complete."

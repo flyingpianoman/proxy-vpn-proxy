@@ -1,8 +1,12 @@
 version: '3.4'
 
 services:
-  proxy-vpn-proxy:
-    container_name: proxy-vpn-proxy
+  proxy-vpn-proxy1:
+    image: flyingpianoman/proxy-vpn-proxy
+    container_name: proxy-vpn-proxy1
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     cap_add:
       - NET_ADMIN
     dns:
@@ -12,15 +16,39 @@ services:
       - /etc/localtime:/etc/localtime:ro
     devices:
       - /dev/net/tun:/dev/net/tun
-    build:
-      context: .
-      dockerfile: ./Dockerfile
     environment:
-      - OPENVPN_CONFIG=
+      - OPENVPN_CONFIG=/config/vpn1.ovpn
       - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
       - VPN_CONNECTION_PROXY_ADDRESS=
       - VPN_CONNECTION_PROXY_PORT=
+      - ENABLE_UFW=false
     volumes:
       - ./config:/config
     ports:
-      - 8888:8888
+      - 6666:8888
+
+  proxy-vpn-proxy2:
+    image: flyingpianoman/proxy-vpn-proxy
+    container_name: proxy-vpn-proxy2
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    cap_add:
+      - NET_ADMIN
+    dns:
+      - 209.222.18.222
+      - 209.222.18.218
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - OPENVPN_CONFIG=/config/vpn2.ovpn
+      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+      - VPN_CONNECTION_PROXY_ADDRESS=proxy-vpn-proxy1
+      - VPN_CONNECTION_PROXY_PORT=8888
+      - ENABLE_UFW=false
+    volumes:
+      - ./config:/config
+    ports:
+      - 7777:8888
