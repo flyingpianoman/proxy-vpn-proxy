@@ -26,6 +26,7 @@ RUN apt update \
     && usermod -G users abc
 
 ADD scripts /etc/scripts/
+RUN chmod -R u+r+x /etc/scripts/
 
 ENV OPENVPN_CONFIG=/config/config.ovpn \
     OPENVPN_OPTS= \
