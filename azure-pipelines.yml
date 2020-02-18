@@ -9,3 +9,14 @@ steps:
   inputs:
     runtime: 'core'
     configFilePath: './GitVersion.yml'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Dockerhub'
+    repository: 'flyingpianoman/proxy-vpn-proxy'
+    command: 'buildAndPush'
+    Dockerfile: 'Dockerfile'
+    buildContext: '.'
+    tags: |
+      $(GitVersion.NugetVersion)
+      latest
